@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.FilterQueryProvider;
 import android.widget.TextView;
 
 import agata91bcomgithub.cardatabase.Add.AddNewCarActivity;
+import agata91bcomgithub.cardatabase.listing.ListingActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static butterknife.ButterKnife.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = (Cursor) adapter.getItem(position);
+                autoCompleteTextView.setText(cursor.getString(cursor.getColumnIndex(CarsTableContracts.COLUMN_MAKE)));
+            }
+        });
 
     }
 
@@ -43,5 +55,11 @@ public class MainActivity extends AppCompatActivity {
     void onAddNewCarButtonClick(){
         Intent intent = new Intent(this, AddNewCarActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.search_button)
+    void onSearchButtonClick() {
+        startActivity(ListingActivity.createIntent(MainActivity.this,
+                autoCompleteTextView.getText().toString()));
     }
 }
