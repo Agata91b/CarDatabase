@@ -22,6 +22,10 @@ import static butterknife.ButterKnife.*;
 
 public class RecyclerViewCursorAdapter extends RecyclerView.Adapter<RecyclerViewCursorAdapter.ViewHolder> {
     private Cursor cursor;
+    private OnCarItemClickListener onCarItemClickListener;
+
+
+
 
     @Override
     public RecyclerViewCursorAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,6 +44,12 @@ public class RecyclerViewCursorAdapter extends RecyclerView.Adapter<RecyclerView
         holder.year.setText("Rocznik: " + year);
         holder.makeAndModel.setText(make + " " + model);
         Glide.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+        holder.itemView.setOnClickListener(v -> {
+            if(onCarItemClickListener !=null) {
+                cursor.moveToPosition(position);
+                onCarItemClickListener.onCarItemClick(cursor.getString(0));
+            }
+        });
     }
 
     @Override
@@ -66,4 +76,7 @@ public class RecyclerViewCursorAdapter extends RecyclerView.Adapter<RecyclerView
             year = findById(itemView, R.id.year);
         }
     }
+        public void setOnCarItemClickListener(OnCarItemClickListener onCarItemClickListener) {
+            this.onCarItemClickListener = onCarItemClickListener;
+        }
     }

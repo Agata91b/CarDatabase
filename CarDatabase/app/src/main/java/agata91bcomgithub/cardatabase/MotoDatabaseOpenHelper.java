@@ -69,7 +69,27 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
             db.execSQL(SQL_DROP_TABLE);
             onCreate(db);
         }
+
     }
+    public Car getCarWithID (String id){
+        Cursor cursor = getReadableDatabase().query(CarsTableContracts.TABLE_NAME, null,
+                CarsTableContracts._ID + " == ?", new String[]{id}, null, null, null);
+
+
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            Car car = new CarBuilder()
+                    .setMake(cursor.getString(cursor.getColumnIndex(CarsTableContracts.COLUMN_MAKE)))
+                    .setImage(cursor.getString(cursor.getColumnIndex(CarsTableContracts.COLUMN_IMAGE)))
+                    .setYear(cursor.getInt(cursor.getColumnIndex(CarsTableContracts.COLUMN_YEAR)))
+                    .setModel(cursor.getString(cursor.getColumnIndex(CarsTableContracts.COLUMN_MODEL)))
+                    .createCar();
+            return car;
+        }
+        cursor.close();
+        return null;
+    }
+
 
     public Cursor searchQuery(CharSequence constraint) {
         Cursor cursor;

@@ -11,13 +11,15 @@ package agata91bcomgithub.cardatabase.listing;
     import android.support.v7.app.AppCompatActivity;
     import android.os.Bundle;
     import android.widget.FrameLayout;
+    import android.widget.Toast;
 
     import agata91bcomgithub.cardatabase.R;
+    import agata91bcomgithub.cardatabase.details.DetailsFragmnet;
     import butterknife.BindView;
     import butterknife.ButterKnife;
 
 
-public class ListingActivity extends AppCompatActivity {
+public class ListingActivity extends AppCompatActivity  implements OnCarItemClickListener {
         private static final String QUERY = "query";
 
     @BindView(R.id.fragment_container)
@@ -42,5 +44,15 @@ public class ListingActivity extends AppCompatActivity {
             intent.putExtra(QUERY, query);
             return intent;
         }
+
+    @Override
+    public void onCarItemClick(String id) {
+        Fragment fragment = DetailsFragmnet.getInstance(id);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+        
     }
+}
 
