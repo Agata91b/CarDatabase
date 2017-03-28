@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Add.AddNewCarActivity"></activity>
+        <activity android:name=".listing.ListingActivity"></activity>
     </application>
 
 </manifest>

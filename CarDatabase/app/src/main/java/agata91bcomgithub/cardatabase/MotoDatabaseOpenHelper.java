@@ -47,8 +47,7 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
         public Cursor getAllItems() {
-         Cursor cursor;
-            cursor = getReadableDatabase().query(CarsTableContracts.TABLE_NAME, new String[]{
+         Cursor cursor = getReadableDatabase().query(CarsTableContracts.TABLE_NAME, new String[]{
                     CarsTableContracts._ID,
                     CarsTableContracts.COLUMN_MAKE,
                        CarsTableContracts.COLUMN_MODEL,
